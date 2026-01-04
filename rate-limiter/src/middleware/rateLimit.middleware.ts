@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { FixedWindowLimiter } from "../limiter/fixedWindow";
 import { SlidingWindowLimiter } from "../limiter/slidingWindow";
+import { TokenBucketLimiter } from "../limiter/tokenBucket";
 import { RateLimitPolicy } from "../types/policy";
 
 // const limiter = new FixedWindowLimiter();
-const limiter = new SlidingWindowLimiter();
+// const limiter = new SlidingWindowLimiter();
+const limiter = new TokenBucketLimiter();
 
 // Factory function so each route can have its own policy
 export function rateLimit(policy: RateLimitPolicy) {
