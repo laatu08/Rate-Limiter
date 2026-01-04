@@ -12,7 +12,7 @@ app.get(
   rateLimit({
     limit: 5,
     windowSeconds: 10,
-    algorithm: "fixed_window",
+    algorithm: "sliding_window",
   }),
   (_req, res) => {
     res.json({ message: "Request successful" });
