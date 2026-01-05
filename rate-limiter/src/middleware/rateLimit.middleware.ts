@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { FixedWindowLimiter } from "../limiter/fixedWindow";
 import { SlidingWindowLimiter } from "../limiter/slidingWindow";
-import { TokenBucketLimiter } from "../limiter/tokenBucket";
+// import { TokenBucketLimiter } from "../limiter/tokenBucket";
+import { TokenBucketLimiter } from "../limiter/updatedTokenBucket";
 import { RateLimitPolicy } from "../types/policy";
 
 // const limiter = new FixedWindowLimiter();
