@@ -1,3 +1,5 @@
+import { FailureStrategy } from "./failure";
+
 export type RateLimitAlgorithm =
   | "fixed_window"
   | "sliding_window"
@@ -8,4 +10,5 @@ export interface RateLimitPolicy {
   limit: number;          // max requests or tokens
   windowSeconds: number;  // time window (for window-based)
   algorithm: RateLimitAlgorithm;
+  failureStrategy?:FailureStrategy;
 }
