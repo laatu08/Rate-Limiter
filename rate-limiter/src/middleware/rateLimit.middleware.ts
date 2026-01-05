@@ -1,22 +1,26 @@
 import { Request, Response, NextFunction } from "express";
-import { FixedWindowLimiter } from "../limiter/fixedWindow";
-import { SlidingWindowLimiter } from "../limiter/slidingWindow";
+
+// import { FixedWindowLimiter } from "../limiter/fixedWindow";
+// import { SlidingWindowLimiter } from "../limiter/slidingWindow";
 // import { TokenBucketLimiter } from "../limiter/tokenBucket";
-import { TokenBucketLimiter } from "../limiter/updatedTokenBucket";
-import { LeakyBucketLimiter } from "../limiter/leakyBucket";
+// import { TokenBucketLimiter } from "../limiter/updatedTokenBucket";
+// import { LeakyBucketLimiter } from "../limiter/leakyBucket";
 import { RateLimitPolicy } from "../types/policy";
 
 // const limiter = new FixedWindowLimiter();
 // const limiter = new SlidingWindowLimiter();
 // const limiter = new TokenBucketLimiter();
-const limiter = new LeakyBucketLimiter();
+// const limiter = new LeakyBucketLimiter();
+
+import { getLimiter } from "../limiter/limiterFactory";
+import { getRateLimitKey } from "../utils/identifier";
 
 // Factory function so each route can have its own policy
 export function rateLimit(policy: RateLimitPolicy) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Identify client (simple version: IP)
-      const key = req.ip || "unknown";
+      const key = getRateLimitKey(req);
+      const limiter = getLimiter(policy.algorithm);
 
       // Consume from limiter
       const result = await limiter.consume(key, policy);
