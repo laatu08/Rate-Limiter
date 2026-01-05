@@ -3,6 +3,7 @@ import { RateLimitPolicy } from "../types/policy";
 import { getLimiter } from "../limiter/limiterFactory";
 import { getRateLimitKey } from "../utils/identifier";
 import { LocalFallbackLimiter } from "../limiter/localFallback";
+import { recordAllowed, recordBlocked, recordRedisError } from "../utils/metrics";
 
 const fallbackLimiter = new LocalFallbackLimiter();
 
@@ -19,8 +20,11 @@ export function rateLimit(policy: RateLimitPolicy) {
       setHeaders(res, policy, result);
 
       if (!result.allowed) {
+        recordBlocked();
         return res.status(429).json({ message: "Too many requests" });
       }
+
+      recordAllowed();
 
       next();
     } catch (err) {
@@ -40,6 +44,7 @@ export function rateLimit(policy: RateLimitPolicy) {
           return res.status(429).json({ message: "Too many requests" });
         }
       }
+      recordRedisError();
 
       // fail-open
       next();
