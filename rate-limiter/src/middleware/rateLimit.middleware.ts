@@ -3,11 +3,13 @@ import { FixedWindowLimiter } from "../limiter/fixedWindow";
 import { SlidingWindowLimiter } from "../limiter/slidingWindow";
 // import { TokenBucketLimiter } from "../limiter/tokenBucket";
 import { TokenBucketLimiter } from "../limiter/updatedTokenBucket";
+import { LeakyBucketLimiter } from "../limiter/leakyBucket";
 import { RateLimitPolicy } from "../types/policy";
 
 // const limiter = new FixedWindowLimiter();
 // const limiter = new SlidingWindowLimiter();
-const limiter = new TokenBucketLimiter();
+// const limiter = new TokenBucketLimiter();
+const limiter = new LeakyBucketLimiter();
 
 // Factory function so each route can have its own policy
 export function rateLimit(policy: RateLimitPolicy) {
