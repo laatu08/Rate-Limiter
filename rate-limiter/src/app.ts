@@ -12,7 +12,7 @@ app.get(
   rateLimit({
     limit: 5,
     windowSeconds: 10,
-    algorithm: "token_bucket",
+    algorithm: "leaky_bucket",
   }),
   (_req, res) => {
     res.json({ message: "Request successful" });

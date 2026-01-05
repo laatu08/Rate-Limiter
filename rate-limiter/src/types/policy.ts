@@ -1,7 +1,8 @@
 export type RateLimitAlgorithm =
   | "fixed_window"
   | "sliding_window"
-  | "token_bucket";
+  | "token_bucket"
+  | "leaky_bucket";
 
 export interface RateLimitPolicy {
   limit: number;          // max requests or tokens
